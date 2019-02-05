@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="Utf-8">
+<title>Controle de Producao</title>
+<style>
+	#prod
+	{
+		border: solid 2px;
+		border-radius: 8px;
+		width: 300px;
+	}
+	#result
+	{
+		position: absolute;
+		right: 400px;
+		bottom: 1233px;
+		border: solid 2px;
+		border-radius: 8px;
+		width: 200px;
+		height: 200px;
+	}
+</style>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+  var horarios = new Array(10);
+  for(var j=0; j<11; j++)
+  {
+  	horarios[j] = -1;
+  }
+  function atualizar()
+  {
+  		var total = 0;
+  		for(var i=1; i<11; i++)
+  		{
+ 	 		var elemento = document.getElementById(i);
+			if(elemento.value != "*")
+			{
+  				total += parseInt(elemento.value);
+  			}
+  		}
+  		var elementTotal = document.getElementById("total");
+  		elementTotal.value = total;
+  }
+  function calcularMetaHora()
+  {
+  	var metaDia = document.getElementById("metaDia");
+  	var metaHora = document.getElementById("metaHora");
+  	
+  	metaHora.value = parseInt(parseInt(metaDia.value)/9 + parseInt(1));
+  }
+  function alertarMeta(id)
+  {
+  	var element = document.getElementById(id);
+  	var metaHora = document.getElementById("metaHora");
+	var valorElement = parseInt(element.value);
+	var valorMetaHora = parseInt(metaHora.value)
+  	if(valorElement <valorMetaHora)
+  	{
+  		element.style.color= "red";
+  	}
+  	else
+ 	{
+ 		element.style.color = "green";
+  	}
+  	var saldo = document.getElementById("saldo");
+  	var valorSaldo = parseInt(saldo.value);
+  	
+  	if(horarios[id] != -1)
+	{
+		valorSaldo = valorSaldo-(horarios[id] - valorMetaHora);
+	}
+	horarios[id] = valorElement;
+  	saldo.value = valorSaldo + (valorElement - valorMetaHora);
+	atualizar();
+  }
+  
+  
+  
+</script>
+</head>
+<body>
+<h1>Controle de Producao</h1>
+<div id="prod">
+<p>Meta Dia: <input type="text" id="metaDia" value="0" onchange="calcularMetaHora()" autofocus size="4">Meta Hora: <input id="metaHora" value="0" size="4"></p>
+<p>08:00 - 09:00    <input type="text" id="1" value="*" onchange="alertarMeta(1)" size="4"> </p>
+<p>09:00 - 10:00    <input type="text" id="2" value="*" onchange="alertarMeta(2)" size="4"></p>
+<p>10:00 - 11:00    <input type="text" id="3" value="*" onchange="alertarMeta(3)" size="4"></p>
+<p>11:00 - 12:00    <input type="text" id="4" value="*" onchange="alertarMeta(4)" size="4"></p>
+<p>12:00 - 13:00    <input type="text" id="5" value="*" onchange="alertarMeta(5)" size="4"></p>
+<p>13:00 - 14:00    <input type="text" id="6" value="*" onchange="alertarMeta(6)" size="4"></p>
+<p>14:00 - 15:00    <input type="text" id="7" value="*" onchange="alertarMeta(7)" size="4"></p>
+<p>15:00 - 16:00    <input type="text" id="8" value="*" onchange="alertarMeta(8)" size="4"></p> 
+<p>16:00 - 17:00    <input type="text" id="9" value="*" onchange="alertarMeta(9)" size="4"></p>
+<p>17:00 - 17:48    <input type="text" id="10" value="*" onchange="alertarMeta(10)" size="4"></p>
+</div>
+<div id="result">
+<p>Total: <input id="total" size="4" value="0"></p>
+<p>Saldo: <input id="saldo" size="4" value="0"></p>
+<p>Restante: <input id="restante" size="7" value="Coming soon"></p>
+</div>
+</body>
+</html>
